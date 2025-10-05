@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Multimedia Player</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f9fafc;
+      color: #222;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      color: #444;
+      margin-bottom: 15px;
+    }
+
+    audio, video {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    p {
+      background-color: #f2f2f2;
+      padding: 15px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <!-- Main Title -->
+    <h1>🎵 My Multimedia Player 🎬</h1>
+
+    <!-- Section 1: Audio -->
+    <section>
+      <h2>Sailing Away - Audio Track</h2>
+      <audio controls aria-label="Audio player for Sailing Away">
+        <source src="https://cdn.freecodecamp.org/curriculum/js-music-player/sailing-away.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </section>
+
+    <!-- Section 2: Video -->
+    <section>
+      <h2>Understanding the Map Method - Video</h2>
+      <video controls width="600" aria-label="Video player explaining JavaScript map method">
+        <source src="https://cdn.freecodecamp.org/curriculum/labs/What%20is%20the%20map%20method%20and%20how%20does%20it%20work.mp4" type="video/mp4">
+        <track src="https://cdn.freecodecamp.org/curriculum/labs/what-is-the-map-method.vtt" kind="subtitles" srclang="en" label="English">
+        Your browser does not support the video element.
+      </video>
+    </section>
+
+    <!-- Section 3: Transcript -->
+    <section>
+      <h2>Transcript</h2>
+      <p>
+        In this video, the instructor explains how the <code>map()</code> method in JavaScript works.
+        The method allows you to transform each element in an array and return a new array with the modified values.
+        It’s a powerful and elegant way to handle lists and perform transformations efficiently.
+      </p>
+    </section>
+  </main>
+</body>
+</html>

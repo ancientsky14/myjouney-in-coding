@@ -1,0 +1,123 @@
+/* 🌙 General Page Style */
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(145deg, #0d0d0d, #1c1c1c);
+  color: #f5f5f5;
+  padding: 40px;
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  color: #ffcb2f;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(255, 203, 47, 0.5);
+  margin-bottom: 30px;
+}
+
+/* 📝 To-Do List Container */
+.todo-list {
+  list-style: none;
+  padding: 0;
+  max-width: 500px;
+  margin: 0 auto;
+  background: #1f1f1f;
+  border-radius: 14px;
+  box-shadow: 0 0 20px rgba(255, 203, 47, 0.2);
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+/* 🧾 Each To-Do Item */
+.todo-list li {
+  border-bottom: 1px solid #333;
+  padding: 15px 20px;
+  position: relative;
+  transition: background 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.todo-list li:last-child {
+  border-bottom: none;
+}
+
+/* ✨ Hover Glow */
+.todo-list li:hover {
+  background: #2a2a2a;
+  transform: translateX(4px);
+  box-shadow: inset 3px 0 0 #ffcb2f;
+}
+
+/* ✅ Checkbox + Label Pair */
+input[type="checkbox"] {
+  transform: scale(1.3);
+  cursor: pointer;
+  accent-color: #ffcb2f;
+}
+
+label {
+  margin-left: 8px;
+  font-weight: 500;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+/* Strikethrough effect when checked */
+input[type="checkbox"]:checked + label {
+  text-decoration: line-through;
+  color: #888;
+  text-shadow: none;
+}
+
+/* 🪄 Sub-items (links) */
+.sub-item {
+  list-style: none;
+  margin-top: 10px;
+  margin-left: 30px;
+  padding-left: 0;
+}
+
+/* Link Base */
+.sub-item-link {
+  color: #00bcd4;
+  text-decoration: none;
+  transition: all 0.25s ease-in-out;
+  display: inline-block;
+  position: relative;
+}
+
+/* Glowing underline animation */
+.sub-item-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ffcb2f;
+  transition: width 0.3s ease;
+}
+
+/* Hover animation */
+.sub-item-link:hover::after {
+  width: 100%;
+}
+
+/* Link Color States */
+.sub-item-link:visited {
+  color: #9c27b0;
+}
+
+.sub-item-link:hover {
+  color: #ffcb2f;
+}
+
+.sub-item-link:active {
+  color: #ff5722;
+}
+
+.sub-item-link:focus {
+  outline: 2px solid #00e676;
+  border-radius: 3px;
+  outline-offset: 3px;
+}
