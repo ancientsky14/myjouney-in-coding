@@ -39,6 +39,12 @@
       margin-bottom: 15px;
     }
 
+    p span[aria-hidden="true"] {
+      margin-right: 8px;
+      font-size: 1.2em;
+      color: #FFD700; /* gold stars */
+    }
+
     h2 {
       margin-top: 30px;
       margin-bottom: 15px;
@@ -56,29 +62,6 @@
 
     strong {
       font-weight: bold;
-    }
-
-    /* Star Rating Styles */
-    .star-rating {
-      font-size: 1.2em;
-      display: inline-block;
-      color: #ccc; /* gray stars for empty */
-      position: relative;
-    }
-
-    .star-rating::before {
-      content: "★★★★★"; /* full stars as background */
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: #FFD700; /* gold stars */
-      width: 92%; /* adjust width to reflect rating */
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .rating-text {
-      margin-left: 8px;
     }
   </style>
 </head>
@@ -98,8 +81,7 @@
     <!-- Movie Rating -->
     <p>
       <strong>Movie Rating:</strong>
-      <span class="star-rating" aria-hidden="true"></span>
-      <span class="rating-text">(9.2/10)</span>
+      <span aria-hidden="true">⭐⭐⭐⭐⭐⭐⭐⭐☆</span> (9.2/10)
     </p>
 
     <!-- Cast Members -->
