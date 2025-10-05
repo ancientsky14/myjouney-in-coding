@@ -1,110 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rise Beyond - Movie Review</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    line-height: 1.6;
-    padding: 20px;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rise Beyond - Movie Review</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
 
-  main {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
 
-  h1 {
-    text-align: center;
-    margin-bottom: 15px;
-    color: #222;
-  }
+    h1 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #222;
+    }
 
-  img {
-    display: block;
-    max-width: 100%;
-    margin: 0 auto 20px auto;
-    border-radius: 6px;
-  }
+    img {
+      display: block;
+      max-width: 100%;
+      margin: 0 auto 20px auto;
+      border-radius: 6px;
+    }
 
-  p {
-    margin-bottom: 15px;
-  }
+    p {
+      margin-bottom: 15px;
+    }
 
-  h2 {
-    margin-top: 30px;
-    margin-bottom: 15px;
-    color: #444;
-  }
+    h2 {
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #444;
+    }
 
-  ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
 
-  li {
-    margin-bottom: 10px;
-  }
+    li {
+      margin-bottom: 10px;
+    }
 
-  strong {
-    font-weight: bold;
-  }
+    strong {
+      font-weight: bold;
+    }
 
-  /* Star rating base style */
-  .star-rating {
-    display: inline-block;
-    font-size: 1.2em;
-    color: #FFD700; /* gold stars */
-    font-family: "Arial", sans-serif;
-  }
-</style>
+    /* Dynamic Star Rating */
+    .star-rating {
+      display: inline-block;
+      font-size: 1.2em;
+      color: #ccc; /* gray stars */
+      position: relative;
+      font-family: "Arial", sans-serif;
+    }
+
+    .star-rating::before {
+      content: "★★★★★"; /* 5 stars base */
+    }
+
+    .star-rating::after {
+      content: "★★★★★";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #FFD700; /* gold stars */
+      width: calc((var(--rating) / 10) * 100%);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .rating-text {
+      margin-left: 8px;
+    }
+  </style>
 </head>
 <body>
-<main>
-  <h1>Rise Beyond</h1>
-  <img src="https://cdn.freecodecamp.org/curriculum/labs/rise-beyond-2.png" alt="Rise Beyond movie poster showing the main character soaring above a futuristic city">
-  <p>
-    Rise Beyond is a thrilling sci-fi adventure that follows Ethan Carter as he navigates a world where technology and humanity collide. Packed with suspense, heart, and unforgettable characters, this film is a visual masterpiece that pushes the boundaries of imagination.
-  </p>
+  <main>
+    <!-- Movie Title -->
+    <h1>Rise Beyond</h1>
 
-  <p>
-    <strong>Movie Rating:</strong>
-    <span class="star-rating" data-rating="9.2" aria-hidden="true"></span>
-    <span class="rating-text">(9.2/10)</span>
-  </p>
+    <!-- Movie Cover -->
+    <img src="https://cdn.freecodecamp.org/curriculum/labs/rise-beyond-2.png" alt="Rise Beyond movie poster showing the main character soaring above a futuristic city">
 
-  <h2>Cast Members</h2>
-  <ul>
-    <li><strong>James Holloway</strong> as Ethan Carter</li>
-    <li><strong>Clara Benson</strong> as Dr. Lila Monroe</li>
-    <li><strong>Rafael Ortega</strong> as Commander Voss</li>
-    <li><strong>Mia Chen</strong> as Captain Aria Lee</li>
-    <li><strong>Samuel Reed</strong> as Professor Kane</li>
-  </ul>
-</main>
+    <!-- Movie Description -->
+    <p>
+      Rise Beyond is a thrilling sci-fi adventure that follows Ethan Carter as he navigates a world where technology and humanity collide. Packed with suspense, heart, and unforgettable characters, this film is a visual masterpiece that pushes the boundaries of imagination.
+    </p>
 
-<script>
-  // Dynamically render star ratings
-  document.querySelectorAll('.star-rating').forEach(star => {
-    const rating = parseFloat(star.getAttribute('data-rating'));
-    const fullStars = Math.floor(rating);
-    const halfStar = rating - fullStars >= 0.5 ? 1 : 0;
-    const emptyStars = 10 - fullStars - halfStar;
-    
-    let stars = '★'.repeat(fullStars);
-    if (halfStar) stars += '☆'; // optional: can use half star emoji if you want
-    stars += '☆'.repeat(emptyStars);
+    <!-- Movie Rating -->
+    <p>
+      <strong>Movie Rating:</strong>
+      <span class="star-rating" style="--rating: 9.1;" aria-hidden="true"></span>
+      <span class="rating-text">(9.1/10)</span>
+    </p>
 
-    star.textContent = stars;
-  });
-</script>
+    <!-- Cast Members -->
+    <h2>Cast Members</h2>
+    <ul>
+      <li><strong>James Holloway</strong> as Ethan Carter</li>
+      <li><strong>Clara Benson</strong> as Dr. Lila Monroe</li>
+      <li><strong>Rafael Ortega</strong> as Commander Voss</li>
+      <li><strong>Mia Chen</strong> as Captain Aria Lee</li>
+      <li><strong>Samuel Reed</strong> as Professor Kane</li>
+    </ul>
+  </main>
 </body>
 </html>
