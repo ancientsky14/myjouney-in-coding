@@ -1,0 +1,212 @@
+// const chessboard = [
+//     ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+//     ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+//     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+//     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+//     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+//     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+//     ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+//     ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r']
+// ];
+
+// console.log(chessboard[0][5])
+// console.log(chessboard[1][5])
+// console.log(chessboard[7][5])
+// Initialize the chessboard
+// Console Chess with Check & Checkmate Detection
+const chessboard = [
+  ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+  ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+  ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r']
+];
+
+function printBoard() {
+  console.log('\n   a  b  c  d  e  f  g  h');
+  console.log('  ------------------------');
+  chessboard.forEach((row, i) => {
+    console.log(`${8 - i} | ${row.join(' ')} |`);
+  });
+  console.log('  ------------------------\n');
+}
+
+function parseMove(pos) {
+  const file = pos[0].toLowerCase().charCodeAt(0) - 97;
+  const rank = 8 - parseInt(pos[1]);
+  return [rank, file];
+}
+
+function inBounds(r, c) {
+  return r >= 0 && r < 8 && c >= 0 && c < 8;
+}
+
+function isPathClear(fromRow, fromCol, toRow, toCol) {
+  const rowDir = Math.sign(toRow - fromRow);
+  const colDir = Math.sign(toCol - fromCol);
+  let r = fromRow + rowDir;
+  let c = fromCol + colDir;
+
+  while (r !== toRow || c !== toCol) {
+    if (chessboard[r][c] !== ' ') return false;
+    r += rowDir;
+    c += colDir;
+  }
+  return true;
+}
+
+function isValidMove(piece, fromRow, fromCol, toRow, toCol) {
+  const dr = toRow - fromRow;
+  const dc = toCol - fromCol;
+  const target = chessboard[toRow][toCol];
+  const absDr = Math.abs(dr);
+  const absDc = Math.abs(dc);
+  const isWhite = piece === piece.toUpperCase();
+
+  // Prevent capturing same color
+  if (target !== ' ') {
+    const isSameColor =
+      (piece === piece.toUpperCase() && target === target.toUpperCase()) ||
+      (piece === piece.toLowerCase() && target === target.toLowerCase());
+    if (isSameColor) return false;
+  }
+
+  switch (piece.toLowerCase()) {
+    case 'p':
+      const dir = isWhite ? -1 : 1;
+      const startRow = isWhite ? 6 : 1;
+      if (dc === 0 && target === ' ') {
+        if (dr === dir) return true;
+        if (fromRow === startRow && dr === 2 * dir && chessboard[fromRow + dir][fromCol] === ' ')
+          return true;
+      }
+      if (absDc === 1 && dr === dir && target !== ' ' && target !== undefined) return true;
+      return false;
+
+    case 'r':
+      if (dr !== 0 && dc !== 0) return false;
+      return isPathClear(fromRow, fromCol, toRow, toCol);
+
+    case 'n':
+      return (absDr === 2 && absDc === 1) || (absDr === 1 && absDc === 2);
+
+    case 'b':
+      if (absDr !== absDc) return false;
+      return isPathClear(fromRow, fromCol, toRow, toCol);
+
+    case 'q':
+      if (absDr === absDc || dr === 0 || dc === 0)
+        return isPathClear(fromRow, fromCol, toRow, toCol);
+      return false;
+
+    case 'k':
+      return absDr <= 1 && absDc <= 1;
+
+    default:
+      return false;
+  }
+}
+
+function cloneBoard() {
+  return chessboard.map((row) => [...row]);
+}
+
+function findKing(isWhite) {
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const p = chessboard[r][c];
+      if ((isWhite && p === 'K') || (!isWhite && p === 'k')) return [r, c];
+    }
+  }
+  return null;
+}
+
+function isKingInCheck(isWhite) {
+  const [kingRow, kingCol] = findKing(isWhite);
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const piece = chessboard[r][c];
+      if (piece === ' ' || (isWhite && piece === piece.toUpperCase()) || (!isWhite && piece === piece.toLowerCase())) continue;
+      if (isValidMove(piece, r, c, kingRow, kingCol)) return true;
+    }
+  }
+  return false;
+}
+
+function movePiece(from, to, currentPlayer) {
+  const [fromRow, fromCol] = parseMove(from);
+  const [toRow, toCol] = parseMove(to);
+
+  if (!inBounds(fromRow, fromCol) || !inBounds(toRow, toCol)) {
+    console.log('⚠️ Move out of bounds.');
+    return false;
+  }
+
+  const piece = chessboard[fromRow][fromCol];
+  if (piece === ' ') {
+    console.log('⚠️ No piece there.');
+    return false;
+  }
+
+  const isWhite = piece === piece.toUpperCase();
+  if ((currentPlayer === 'White' && !isWhite) || (currentPlayer === 'Black' && isWhite)) {
+    console.log(`⚠️ It's ${currentPlayer}'s turn.`);
+    return false;
+  }
+
+  if (!isValidMove(piece, fromRow, fromCol, toRow, toCol)) {
+    console.log('❌ Invalid move.');
+    return false;
+  }
+
+  // simulate move
+  const backup = cloneBoard();
+  chessboard[toRow][toCol] = piece;
+  chessboard[fromRow][fromCol] = ' ';
+
+  if (isKingInCheck(isWhite)) {
+    console.log("🚫 You can't leave your King in check!");
+    for (let i = 0; i < 8; i++) chessboard[i] = [...backup[i]];
+    return false;
+  }
+
+  const captured = backup[toRow][toCol] !== ' ' ? backup[toRow][toCol] : null;
+  if (captured) console.log(`💥 ${currentPlayer} captured ${captured}!`);
+  console.log(`✅ ${piece} moved from ${from} to ${to}.`);
+
+  const opponentInCheck = isKingInCheck(!isWhite);
+  if (opponentInCheck) console.log(`⚠️ ${currentPlayer === 'White' ? 'Black' : 'White'}'s King is in CHECK!`);
+  return true;
+}
+
+// --- Console Gameplay ---
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+let currentPlayer = 'White';
+
+function nextTurn() {
+  printBoard();
+  readline.question(`${currentPlayer}'s move (e.g., e2 e4): `, (input) => {
+    const [from, to] = input.trim().split(' ');
+    if (!from || !to) {
+      console.log('⚠️ Invalid input.');
+      return nextTurn();
+    }
+
+    if (movePiece(from, to, currentPlayer)) {
+      currentPlayer = currentPlayer === 'White' ? 'Black' : 'White';
+    }
+
+    nextTurn();
+  });
+}
+
+console.log('♔ Welcome to Console Chess!');
+printBoard();
+nextTurn();

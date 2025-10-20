@@ -1,0 +1,41 @@
+const names = ["Hole-in-one!", "Eagle", "Birdie", "Par", "Bogey", "Double Bogey", "Go Home!"];
+
+
+function golfScore (par,strokes) {
+ if (strokes === 1) {
+   return "Hole-in-one!";
+ } else if (strokes <= par - 2 ) {
+   return "Eagle";
+ } else if (strokes === par - 1) {
+   return "Birdie";
+ } else if (strokes === par ) {
+   return "Par";
+ } else if (strokes === par + 1) {
+   return "Bogey";
+ } else if (strokes === par + 2 ) {
+   return "Double Bogey";
+ } else if (strokes >= par + 3) {
+   return "Go Home!";
+ }
+}
+
+console.log(golfScore(1, 1)); // Hole-in-one!
+console.log(golfScore(3, 1)); // Hole-in-one!
+console.log(golfScore(4, 1)); // Hole-in-one!
+console.log(golfScore(5, 1)); // Hole-in-one!
+console.log(golfScore(5, 3)); // Eagle
+console.log(golfScore(4, 2)); // Eagle
+console.log(golfScore(5, 2)); // Eagle
+console.log(golfScore(3, 2)); // Birdie
+console.log(golfScore(4, 3)); // Birdie
+console.log(golfScore(5, 4)); // Birdie
+console.log(golfScore(3, 3)); // Par
+console.log(golfScore(3, 4)); // Bogey
+console.log(golfScore(4, 5)); // Bogey
+console.log(golfScore(5, 6)); // Bogey
+console.log(golfScore(3, 5)); // Double Bogey
+console.log(golfScore(4, 6)); // Double Bogey
+console.log(golfScore(5, 7)); // Double Bogey
+console.log(golfScore(3, 7)); // Go Home!
+console.log(golfScore(4, 8)); // Go Home!
+console.log(golfScore(5, 9)); // Go Home!
