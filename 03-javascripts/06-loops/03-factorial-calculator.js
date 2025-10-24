@@ -23,3 +23,4 @@ let resultMsg = `Factorial of ${num} is ${factorial}`;
 
 // 6️⃣ Output the result to the console
 console.log(resultMsg);
+
