@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Audio Controls</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background-color: #f9f9f9;
+      color: #222;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #0078d7;
+      text-align: center;
+    }
+
+    .audio-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      background: #fff;
+      padding: 1.5rem 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .volume-control {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      cursor: pointer;
+    }
+
+    button {
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #0078d7;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #005ea3;
+    }
+
+    #volume-description {
+      font-size: 0.85rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Audio Controls</h1>
+
+  <div class="audio-controls">
+    <button type="button" aria-label="Play audio">Play</button>
+
+    <div class="volume-control">
+      <label id="volume-label" for="volume">Volume</label>
+      <span id="volume-description">Adjust the sound level</span>
+      <input 
+        id="volume" 
+        type="range" 
+        min="0" 
+        max="100" 
+        value="50" 
+        aria-labelledby="volume-label" 
+        aria-describedby="volume-description"
+      />
+    </div>
+
+    <button type="button" aria-label="Mute audio">Mute</button>
+  </div>
+</body>
+</html>
