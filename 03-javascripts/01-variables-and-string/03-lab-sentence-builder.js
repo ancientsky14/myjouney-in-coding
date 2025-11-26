@@ -29,3 +29,4 @@ let secondStory = createStory();
 
 console.log("First story:", firstStory);
 console.log("Second story:", secondStory);
+
