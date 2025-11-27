@@ -41,11 +41,14 @@ label {
 
 input[type="checkbox"] {
   appearance: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 20px;
   height: 20px;
   margin-right: 10px;
   border: 2px solid #f1be32;
-  border-radius: 6px;
+  border-radius: 4px;
   background-color: #fff;
   cursor: pointer;
   position: relative;
@@ -60,12 +63,14 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked::after {
   content: "✓";
   position: absolute;
-  top: 2px;
-  left: 5px;
+  top: 50%;
+  left: 50%;
   font-size: 14px;
   color: white;
   font-weight: bold;
   text-align: center;
+  transform: translate(-50%, -50%);
+
 }
 
 input[type="checkbox"]:hover {

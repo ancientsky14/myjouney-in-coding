@@ -1,0 +1,70 @@
+:root{
+    --label-width: 300px;
+    --label-padding: 12px;
+    --divider: #888989;
+    --black: #000;
+    --muted: #666;
+}
+
+* { box-sizing: border-box; }
+html { font-size: 16px; }
+body { font-family: 'Open Sans', sans-serif; background: #fff; color: var(--black); }
+
+.label {
+    border: 2px solid var(--black);
+    width: var(--label-width);
+    max-width: 94vw;
+    margin: 20px auto;
+    padding: var(--label-padding);
+    background: #fff;
+}
+
+header h1 {
+    text-align: left;
+    margin: 0 0 6px 0;
+    font-size: 1.25rem;
+    letter-spacing: 0.5px;
+}
+
+p { margin: 0; }
+
+/* rows — use for nutrient lines and items that need left/right alignment */
+.row { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.right { justify-content:flex-end; }
+
+.divider {
+    border-bottom: 1px solid var(--divider);
+    margin: 6px 0;
+}
+
+.bold { font-weight: 800; }
+.muted { color: var(--muted); font-weight: 400; }
+
+.large { height: 10px; background-color: var(--black); border: 0; margin: 8px 0; }
+.medium { height: 5px; background-color: var(--black); border: 0; margin: 6px 0; }
+
+.small-text { font-size: 0.85rem; }
+
+.calories-info { display:flex; justify-content:space-between; align-items:flex-end; gap:8px; }
+.calories-label { margin: 0; font-size: 0.95rem; }
+.calories-value { font-size: 2.4rem; font-weight:700; }
+
+.left-container h2 { margin: 0; }
+
+.indent { margin-left: 1em; }
+.double-indent { margin-left: 2em; }
+
+.daily-value .no-divider { border-bottom: none; }
+
+.nutrient { padding: 6px 0; }
+.subitem { padding: 4px 0; font-size: 0.95rem; }
+.nutrient-name { display:block; }
+.nutrient-value { min-width: 48px; text-align:right; }
+.no-divider { border-bottom: none; }
+
+.note { font-size: 0.75rem; margin: 8px 0; color: var(--muted); padding: 0 4px; }
+
+@media (max-width:420px){
+    :root{ --label-width: 94vw; }
+    .calories-value{ font-size:1.8rem; }
+}

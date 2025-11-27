@@ -1,0 +1,218 @@
+body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #1b1b32;
+    color: #f5f6f7;
+    font-family: Tahoma, sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h1, p {
+    text-align: center;
+}
+
+form {
+    width: 90%;
+    max-width: 550px;
+    background-color: #2a2a47;
+    padding: 2rem;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+fieldset {
+    border: none;
+    padding: 1.5rem 0;
+    border-bottom: 2px solid #3b3b4f;
+}
+
+fieldset:last-of-type {
+    border-bottom: none;
+}
+
+label {
+    display: block;
+    margin: 1rem 0;
+    font-size: 0.95em;
+}
+
+.inline-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0.5rem 0;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #0c0c22;
+    color: #fff;
+    font-size: 1em;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border: 1px solid #00d4ff;
+    box-shadow: 0 0 8px #00d4ff;
+}
+
+input[type="file"] {
+    padding: 5px;
+}
+
+.tos-link {
+    display: block;
+    margin: 1rem 0;
+    color: #9ecbff;
+    text-decoration: none;
+}
+
+.tos-link:hover {
+    text-decoration: underline;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+    margin-top: 1rem;
+    background-color: #00aaff;
+    color: #1b1b32;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.submit-btn:hover {
+    background-color: #33c8ff;
+    transform: translateY(-2px);
+}
+
+.submit-btn:active {
+    background-color: #0088cc;
+    transform: scale(0.98);
+}
+.error-message {
+    color: #ff4c4c;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+.success-message {
+    color: #4caf50;
+    font-size: 1em;
+    text-align: center;
+    margin-top: 1rem;
+}
+@media (max-width: 600px) {
+    form {
+        padding: 1rem;
+    }
+}
+input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+input[type="radio"] {
+    width: auto;
+    margin-right: 10px;
+}
+input[type="submit"] {
+    background-color: #007acc;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+input[type="submit"]:hover {
+    background-color: #005f99;
+}
+input[type="submit"]:active {
+    background-color: #004466;
+}
+input::placeholder,
+textarea::placeholder {
+    color: #888;
+}
+input:invalid,
+textarea:invalid,
+select:invalid {
+    border: 1px solid #ff4c4c;
+}
+input:valid,
+textarea:valid,
+select:valid {
+    border: 1px solid #4caf50;
+}
+label.error {
+    color: #ff4c4c;
+    font-size: 0.85em;
+    margin-top: 4px;
+}
+label.success {
+    color: #4caf50;
+    font-size: 0.85em;
+    margin-top: 4px;
+}
+input[type="password"] {
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 2px;
+    border: 1px solid #444;
+    background-color: #0c0c22;
+    color: #fff;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="password"]:focus {
+    border: 1px solid #ffaa00;
+    box-shadow: 0 0 8px #ffaa00;
+}
+input[type="password"]::placeholder {
+    color: #e6e3dc;
+    opacity: 0.7;
+}
+input[type="password"]:invalid {
+    border: 1px solid #ff4c4c;
+}
+input[type="password"]:valid {
+    border: 1px solid #4caf50;
+}
+
+/* Password pattern hint */
+input[type="password"][pattern]:not(:placeholder-shown)::after {
+    content: "Password must be at least 8 characters long and contain only lowercase letters a-z and digits 0-5.";
+    display: block;
+    font-size: 0.8em;
+    color: #ffaa00;
+    margin-top: 4px;
+}
+input[type="password"][pattern]:focus::after {
+    color: #ffaa00;
+}
+input[type="password"][pattern]:invalid::after {
+    color: #ff4c4c;
+}
+input[type="password"][pattern]:valid::after {
+    color: #4caf50;
+}
+/* End of styles.css */

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Label</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet">
+    <link href="./styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="label" role="region" aria-label="Nutrition facts">
+        <header>
+            <h1 class="bold">Nutrition Facts</h1>
+            <div class="divider"></div>
+
+            <p class="servings">8 servings per container</p>
+            <p class="row bold">Serving size <span class="muted">2/3 cup (55g)</span></p>
+        </header>
+
+        <div class="divider large" aria-hidden="true"></div>
+
+        <div class="calories-info">
+            <div class="left-container">
+                <h2 class="bold small-text">Amount per serving</h2>
+                <p class="calories-label">Calories</p>
+            </div>
+            <span class="calories-value" aria-label="Calories 230">230</span>
+        </div>
+
+        <div class="divider medium" aria-hidden="true"></div>
+
+        <div class="daily-value small-text" aria-live="polite">
+            <p class="row right bold no-divider">% Daily Value *</p>
+            <div class="divider" aria-hidden="true"></div>
+
+            <div class="row nutrient">
+                <span class="nutrient-name"><span class="bold">Total Fat</span> 8g</span>
+                <span class="nutrient-value bold">10%</span>
+            </div>
+
+            <div class="row subitem no-divider">
+                <span class="nutrient-name">Saturated Fat 1g</span>
+                <span class="nutrient-value">5%</span>
+            </div>
+
+            <div class="divider" aria-hidden="true"></div>
+
+            <div class="row subitem no-divider">
+                <span class="nutrient-name"><i>Trans</i> Fat 0g</span>
+                <span class="nutrient-value"></span>
+            </div>
+
+            <div class="divider" aria-hidden="true"></div>
+
+            <div class="row nutrient">
+                <span class="nutrient-name"><span class="bold">Cholesterol</span> 0mg</span>
+                <span class="nutrient-value bold">0%</span>
+            </div>
+
+            <div class="row nutrient">
+                <span class="nutrient-name"><span class="bold">Sodium</span> 160mg</span>
+                <span class="nutrient-value bold">7%</span>
+            </div>
+
+            <div class="row nutrient">
+                <span class="nutrient-name"><span class="bold">Total Carbohydrate</span> 37g</span>
+                <span class="nutrient-value bold">13%</span>
+            </div>
+
+            <div class="row subitem no-divider">
+                <span class="nutrient-name">Dietary Fiber 4g</span>
+                <span class="nutrient-value"></span>
+            </div>
+
+            <div class="divider" aria-hidden="true"></div>
+
+            <div class="row subitem no-divider">
+                <span class="nutrient-name">Total Sugars 12g</span>
+                <span class="nutrient-value"></span>
+            </div>
+
+            <div class="divider double-indent" aria-hidden="true"></div>
+
+            <div class="row subitem double-indent no-divider">
+                <span class="nutrient-name">Includes 10g Added Sugars</span>
+                <span class="nutrient-value bold">20%</span>
+            </div>
+
+            <div class="divider" aria-hidden="true"></div>
+
+            <div class="row nutrient no-divider">
+                <span class="nutrient-name"><span class="bold">Protein</span> 3g</span>
+                <span class="nutrient-value"></span>
+            </div>
+
+            <div class="divider large" aria-hidden="true"></div>
+
+            <div class="row micronutrient">
+                <span>Vitamin D 2mcg</span>
+                <span class="nutrient-value">10%</span>
+            </div>
+            <div class="row micronutrient">
+                <span>Calcium 260mg</span>
+                <span class="nutrient-value">20%</span>
+            </div>
+            <div class="row micronutrient">
+                <span>Iron 8mg</span>
+                <span class="nutrient-value">45%</span>
+            </div>
+            <div class="row micronutrient no-divider">
+                <span>Potassium 235mg</span>
+                <span class="nutrient-value">6%</span>
+            </div>
+        </div>
+
+        <div class="divider medium" aria-hidden="true"></div>
+        <p class="note">* The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.</p>
+    </div>
+</body>
+</html>
