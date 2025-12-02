@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>JavaScript Documentation</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+    <nav id="navbar">
+        <header>JavaScript Documentation</header>
+        <a class="nav-link" href="#Introduction">Introduction</a>
+        <a class="nav-link" href="#Variables">Variables</a>
+        <a class="nav-link" href="#Functions">Functions</a>
+        <a class="nav-link" href="#Loops">Loops</a>
+        <a class="nav-link" href="#Arrays">Arrays</a>
+    </nav>
+
+    <main id="main-doc">
+    
+    <!-- Section 1 -->
+        <section class="main-section" id="Introduction">
+            <header>Introduction</header>
+            <p>JavaScript is a powerful scripting language used to create dynamic websites and applications.</p>
+            <p>It runs in the browser and on the server using environments like Node.js.</p>
+            <code>console.log("Hello, world!");</code>
+            <ul>
+                <li>Client-side scripting</li>
+                <li>Dynamic content</li>
+                <li>Interacts with HTML/CSS</li>
+            </ul>
+        </section>
+
+    <!-- Section 2 -->
+        <section class="main-section" id="Variables">
+            <header>Variables</header>
+            <p>Variables store data that can be used and manipulated later in the program.</p>
+            <p>JavaScript supports <code>var</code>, <code>let</code>, and <code>const</code>.</p>
+            <code>let name = "Alice";</code>
+            <code>const age = 30;</code>
+            <ul>
+                <li>let: block-scoped</li>
+                <li>const: block-scoped, cannot be reassigned</li>
+                <li>var: function-scoped</li>
+            </ul>
+        </section>
+
+    <!-- Section 3 -->
+        <section class="main-section" id="Functions">
+            <header>Functions</header>
+            <p>Functions are reusable blocks of code that perform a specific task.</p>
+            <p>You can define functions using function declarations or arrow syntax.</p>
+            <code>function greet() { return "Hello"; }</code>
+            <ul>
+                <li>Reusable code</li>
+                <li>Accepts parameters</li>
+                <li>Can return values</li>
+            </ul>
+        </section>
+
+    <!-- Section 4 -->
+        <section class="main-section" id="Loops">
+            <header>Loops</header>
+            <p>Loops allow you to repeat code multiple times based on a condition.</p>
+            <p>Common loops include for, while, and do...while.</p>
+            <code>for (let i = 0; i < 5; i++) { console.log(i); }</code>
+            <ul>
+                <li>for loop</li>
+                <li>while loop</li>
+                <li>do...while loop</li>
+            </ul>
+        </section>
+
+    <!-- Section 5 -->
+        <section class="main-section" id="Arrays">
+            <header>Arrays</header>
+            <p>Arrays are used to store multiple values in a single variable.</p>
+            <p>You can access array elements using their index.</p>
+            <code>let colors = ["red", "green", "blue"];</code>
+            <ul>
+                <li>Zero-based indexing</li>
+                <li>Array methods like push(), pop(), shift()</li>
+                <li>Loop through arrays with forEach()</li>
+            </ul>
+        </section>
+
+    </main>
+
+</body>
+</html>

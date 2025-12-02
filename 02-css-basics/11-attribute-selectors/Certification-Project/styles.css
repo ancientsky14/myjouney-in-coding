@@ -1,0 +1,104 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100vw;
+}
+
+thead {
+    background-image: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+}
+
+th {
+    padding: 0.4em;
+}
+
+td {
+    text-align: center;
+    padding: 0.3em;
+}
+
+tr[class="read"] {
+    background-image: linear-gradient(to right, #ff7e5f, #feb47b);
+}
+
+tr[class="to-read"] {
+    background-image: linear-gradient(to right, #fbc2eb, #a6c1ee);
+}
+tr[class="in-progress"] {
+    background-image: linear-gradient(to right, #00c6ff, #0072ff);
+}
+
+tr[class="read"] span[class="status"] {
+    border: 0.1em solid hsl(120, 75%, 45%);
+    background-image: linear-gradient(hsl(120, 75%,75%), hsl(120, 75%, 50%));
+    margin: 5px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+tr[class="to-read"] span[class="status"] {
+    border: 0.1em solid hsl(5, 100%, 45%);
+    background-image: linear-gradient(to right, hsl(280, 100%, 70%), hsl(250, 100%, 70%));
+    margin: 5px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+tr[class="in-progress"] span[class="status"] {
+    border: 0.1em solid hsl(40, 90%, 40%);
+    background-image: linear-gradient(hsl(40, 90%, 75%), hsl(40, 90%, 50%));
+    margin: 5px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+span {
+    display: inline-block;
+}
+
+span[class="status"] {
+    border-radius:  20%/60%;
+}
+
+span[class="status"], span[class^="rate"] {
+    height: 80%;
+    width: 80%;
+    padding: 5px;
+}
+
+span[class^="rate"] {
+    height: 20px;
+    width: 20px;
+    padding: 4px;
+}
+
+span[class^="rate"] > span {
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin: 2px;
+    height: 10px;
+    width: 20%;
+    background-color: whitesmoke;
+    }
+
+span[class~="one"] > :nth-child(1) {
+    background-image: linear-gradient(to top, rgb(255,214,7), rgb(255,227,90));
+    } 
+span[class~="two"] > :nth-child(-n+2){
+    background-image: linear-gradient(to top, rgb(255,214,7), rgb(255,227,90));
+    } 
+span[class~="three"] > :nth-child(-n+3){  
+    background-image: linear-gradient(to top, rgb(255,214,7), rgb(255,227,90));  
+    }
+
+span[class~="three"] span {
+    background-image: linear-gradient(to top, rgb(255,214,7), rgb(255,227,90));
+}
