@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System GSAP</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+    <div class="space">
+
+        <div class="stars"></div>
+
+        <div class="earth-wrapper">
+            <div class="earth"></div>
+            <div class="atmosphere"></div>
+        </div>
+
+        <div class="orbit">
+            <div class="moon"></div>
+        </div>
+
+    </div>
+
+    <script>
+        const tl = gsap.timeline({ repeat: -1 });
+
+/* 1. Orbit rotation */
+tl.to(".orbit", {
+    rotate: 360,
+    duration: 6,
+    ease: "none"
+}, 0);
+
+/* 2. Moon pulsing */
+tl.to(".moon", {
+    scale: 1.15,
+    duration: 3,
+    yoyo: true,
+    repeat: -1,
+    ease: "sine.inOut"
+}, 0);
+
+/* 3. Earth rotation (simulated texture movement) */
+tl.to(".earth", {
+    backgroundPosition: "200% 0%",
+    duration: 12,
+    ease: "none",
+    repeat: -1
+}, 0);
+    </script>
+</body>
+</html>

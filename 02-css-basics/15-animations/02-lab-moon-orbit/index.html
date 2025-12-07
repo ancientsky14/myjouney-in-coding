@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mini Solar System — GSAP</title>
+
+<!-- GSAP CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<style>
+    :root{
+    --bg:#03051a;
+    --star-1: #ffffff;
+    --star-2: #cce7ff;
+    --sun-size: 120px;
+    --sys-size: min(92vmin, 900px);
+    --center: calc(var(--sys-size) / 2);
+    --orbit-color: rgba(255,255,255,0.06);
+    }
+
+  /* Basic reset */
+  *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+        background: radial-gradient(1200px 600px at 10% 10%, rgba(10,12,30,0.6), var(--bg));
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        color: #fff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:24px;
+        overflow:hidden;
+    }
+
+  /* Scene */
+    .scene {
+        width: var(--sys-size);
+        height: var(--sys-size);
+        position: relative;
+        border-radius: 12px;
+        overflow: visible;
+    }
+
+  /* STAR LAYERS (parallax) */
+    .stars, .stars--mid, .stars--near {
+        position: absolute;
+        inset: 0;
+        background-repeat: repeat;
+        pointer-events: none;
+        opacity: 0.9;
+    }
+    .stars {
+        background-image: radial-gradient(1px 1px at 10% 14%, var(--star-1), transparent),
+                        radial-gradient(1.2px 1.2px at 28% 70%, var(--star-1), transparent),
+                        radial-gradient(1px 1px at 70% 20%, var(--star-1), transparent),
+                        radial-gradient(1px 1px at 90% 80%, var(--star-1), transparent);
+        filter: blur(.2px);
+        transform: translateZ(0);
+    }
+    .stars--mid {
+        background-image: radial-gradient(1.6px 1.6px at 20% 30%, var(--star-2), transparent),
+                        radial-gradient(1.2px 1.2px at 60% 50%, var(--star-2), transparent),
+                        radial-gradient(1.4px 1.4px at 82% 18%, var(--star-2), transparent);
+        opacity: 0.6;
+        mix-blend-mode: screen;
+    }
+    .stars--near {
+        background-image: radial-gradient(2.4px 2.4px at 40% 40%, #fff, transparent),
+                        radial-gradient(2px 2px at 80% 70%, #fff, transparent);
+        opacity: 0.35;
+        mix-blend-mode: screen;
+    }
+
+    /* CENTER / SUN */
+    .sun {
+        position: absolute;
+        left: 50%; top: 50%;
+        width: var(--sun-size); height: var(--sun-size);
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 35%, #ffe680 0%, #ffb300 40%, #ff6b00 85%);
+        box-shadow:
+        0 0 60px rgba(255,180,40,0.65),
+        inset -18px -8px 40px rgba(255,255,255,0.22);
+        z-index: 40;
+    }
+
+    /* Sun corona glow (pulsing visual) */
+    .corona {
+        position:absolute;
+        left:50%; top:50%;
+        width: calc(var(--sun-size) * 2.4);
+        height: calc(var(--sun-size) * 2.4);
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,173,56,0.16), transparent 40%);
+        filter: blur(18px);
+        z-index: 30;
+        pointer-events: none;
+    }
+
+    /* ORBIT (container) - we'll spin this with GSAP */
+    .orbit {
+        position:absolute;
+        left:50%; top:50%;
+        transform: translate(-50%,-50%) rotate(0deg);
+        border-radius:50%;
+        border: 1px solid var(--orbit-color);
+        box-shadow: 0 0 0 0 rgba(255,255,255,0.02) inset;
+        background: radial-gradient(circle at 100% 0%, rgba(255,255,255,0.01), transparent 10%);
+        z-index: 2;
+        pointer-events:none;
+    }
+
+    /* Planet element sits at top center of its orbit */
+    .planet {
+        position:absolute;
+        left:50%;
+        top:0;
+        transform: translate(-50%, -50%);
+        border-radius:50%;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.45), inset -6px -6px 12px rgba(0,0,0,0.25);
+        z-index: 45;
+    }
+
+    /* Planet labels */
+    .label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 8px);
+        font-size: 12px;
+        color: rgba(255,255,255,0.85);
+        white-space:nowrap;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+        pointer-events: none;
+    }
+
+    /* Saturn rings (attached to Saturn planet) */
+    .ring {
+        position:absolute;
+        left:50%;
+        top:50%;
+        transform: translate(-50%, -50%) rotate(20deg);
+        border-radius: 50%;
+        pointer-events:none;
+        z-index: 44;
+    }
+
+    /* COMET */
+    .comet {
+        position: absolute;
+        width: 18px; height: 18px;
+        background: radial-gradient(circle at 30% 30%, #fff, #ffd, #fdbb2d);
+        border-radius: 50%;
+        box-shadow: 0 0 14px rgba(255,220,120,0.9);
+        z-index: 60;
+        pointer-events:none;
+    }
+
+    .comet::after {
+        content: "";
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 320px;
+        height: 6px;
+        background: linear-gradient(90deg, rgba(255,245,200,0.95), rgba(255,245,200,0.1), transparent);
+        filter: blur(6px);
+        border-radius: 6px;
+        opacity: .95;
+    }
+
+    /* small responsive tweaks */
+    @media (max-width:700px){
+        :root{ --sun-size: 86px; --sys-size: min(92vmin, 640px) }
+    }
+
+    /* Reduced motion respect */
+    @media (prefers-reduced-motion: reduce) {
+        .orbit, .stars, .stars--mid, .stars--near, .corona { animation: none !important; }
+    }
+</style>
+</head>
+<body>
+
+<div class="scene" id="scene">
+
+    <!-- Stars layers for parallax -->
+    <div class="stars" id="stars-back"></div>
+    <div class="stars--mid" id="stars-mid"></div>
+    <div class="stars--near" id="stars-near"></div>
+
+    <!-- Sun + corona -->
+    <div class="corona" aria-hidden="true"></div>
+    <div class="sun" id="sun" aria-hidden="false" title="Sun"></div>
+
+    <!-- Orbits & planets.
+        Each orbit has inline style for width/height (diameter).
+        We'll place planet size via style and attach label.
+    -->
+
+    <!-- Mercury -->
+    <div class="orbit" id="orbit-mercury" data-days="88" style="width:120px;height:120px;margin-left:-60px;margin-top:-60px;">
+        <div class="planet" id="mercury" style="width:8px;height:8px;background:linear-gradient(180deg,#bdbdbd,#8b8b8b);">
+        <div class="label">Mercury</div>
+        </div>
+    </div>
+
+    <!-- Venus -->
+    <div class="orbit" id="orbit-venus" data-days="225" style="width:160px;height:160px;margin-left:-80px;margin-top:-80px;">
+        <div class="planet" id="venus" style="width:14px;height:14px;background:linear-gradient(180deg,#f1d9b5,#c88c4b);">
+        <div class="label">Venus</div>
+        </div>
+    </div>
+
+    <!-- Earth -->
+    <div class="orbit" id="orbit-earth" data-days="365" style="width:210px;height:210px;margin-left:-105px;margin-top:-105px;">
+        <div class="planet" id="earth" style="width:16px;height:16px;background:radial-gradient(circle at 30% 30%, #6ec8ff, #025d9e 60%);">
+        <div class="label">Earth</div>
+        </div>
+    </div>
+
+    <!-- Mars -->
+    <div class="orbit" id="orbit-mars" data-days="687" style="width:260px;height:260px;margin-left:-130px;margin-top:-130px;">
+        <div class="planet" id="mars" style="width:10px;height:10px;background:linear-gradient(180deg,#ffb27a,#b04b2e);">
+        <div class="label">Mars</div>
+        </div>
+    </div>
+
+    <!-- Jupiter -->
+    <div class="orbit" id="orbit-jupiter" data-days="4333" style="width:340px;height:340px;margin-left:-170px;margin-top:-170px;">
+        <div class="planet" id="jupiter" style="width:38px;height:38px;background:linear-gradient(180deg,#f7caa9,#a36b3b);">
+        <div class="label">Jupiter</div>
+        </div>
+    </div>
+
+    <!-- Saturn (with ring) -->
+    <div class="orbit" id="orbit-saturn" data-days="10759" style="width:420px;height:420px;margin-left:-210px;margin-top:-210px;">
+        <div class="planet" id="saturn" style="width:34px;height:34px;background:linear-gradient(180deg,#f6e0b2,#b98e55);">
+        <div class="label">Saturn</div>
+        <div class="ring" style="width:66px;height:28px;border:10px solid rgba(245,220,150,0.55);"></div>
+        </div>
+    </div>
+
+    <!-- Uranus -->
+    <div class="orbit" id="orbit-uranus" data-days="30799" style="width:520px;height:520px;margin-left:-260px;margin-top:-260px;">
+        <div class="planet" id="uranus" style="width:20px;height:20px;background:linear-gradient(180deg,#bfe9f2,#57bccb);">
+        <div class="label">Uranus</div>
+        </div>
+    </div>
+
+    <!-- Neptune -->
+    <div class="orbit" id="orbit-neptune" data-days="60190" style="width:600px;height:600px;margin-left:-300px;margin-top:-300px;">
+        <div class="planet" id="neptune" style="width:20px;height:20px;background:linear-gradient(180deg,#7cc3ff,#0f66b3);">
+        <div class="label">Neptune</div>
+        </div>
+    </div>
+
+    <!-- Comet (starts off-screen) -->
+    <div class="comet" id="comet" style="left:-120px; top:80%; opacity:0;"></div>
+
+</div>
+
+<script>
+/*
+    GSAP-driven solar system.
+    Planets: each orbit element rotates around center; planets are positioned at top center inside orbit.
+    We use realistic orbital period ratios (days) but scaled down with TIME_SCALE.
+    Tweak TIME_SCALE to speed up/slow whole system.
+*/
+
+// Respect reduced motion
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// planets configuration (the orbit elements have data-days attributes for actual orbital days)
+const planetOrbits = [
+    { id: 'orbit-mercury', name: 'Mercury' },
+    { id: 'orbit-venus',   name: 'Venus'   },
+    { id: 'orbit-earth',   name: 'Earth'   },
+    { id: 'orbit-mars',    name: 'Mars'    },
+    { id: 'orbit-jupiter', name: 'Jupiter' },
+    { id: 'orbit-saturn',  name: 'Saturn'  },
+    { id: 'orbit-uranus',  name: 'Uranus'  },
+    { id: 'orbit-neptune', name: 'Neptune' }
+];
+
+// Example real orbital periods in days are on the orbit elements in HTML - we'll read them
+// Choose a TIME_SCALE so animations are visible but still reflect ratios. Lower => faster.
+const TIME_SCALE = 3; // tweak this to speed up (larger value => slower animation)
+const BASE_EARTH_SECONDS = 12; // target seconds for Earth's orbit before scaling by TIME_SCALE
+
+// Initialize GSAP timeline(s)
+if (!reduce) {
+  // animate orbits: continuous rotation
+    planetOrbits.forEach((p) => {
+        const orbitEl = document.getElementById(p.id);
+        if (!orbitEl) return;
+
+        const days = parseFloat(orbitEl.dataset.days) || 365;
+        // compute duration: (days / 365) * BASE_EARTH_SECONDS / TIME_SCALE
+        // We invert TIME_SCALE to accelerate when TIME_SCALE small; want finalDurationSeconds:
+        const finalDuration = (days / 365) * BASE_EARTH_SECONDS / (1 / TIME_SCALE);
+
+        // Use GSAP to rotate the orbit container to create circular orbit
+        gsap.to(orbitEl, {
+        rotate: 360,
+        duration: finalDuration,
+        ease: "none",
+        repeat: -1,
+        transformOrigin: "50% 50%"
+        });
+
+        // tiny tilt wobble for some orbits (giving life)
+        if (p.name === 'Saturn' || p.name === 'Jupiter') {
+        gsap.to(orbitEl, { rotationX: 6, yoyo: true, repeat: -1, duration: finalDuration * 0.15, ease: "sine.inOut" });
+        }
+    });
+
+    // Earth texture simulated slow rotation (background-position trick)
+    // We used no actual texture image, so animate a subtle background position to suggest rotation
+    const earth = document.getElementById('earth');
+    if (earth) {
+        gsap.to(earth, {
+        backgroundPosition: "200% 0%",
+        duration: 14,
+        ease: "none",
+        repeat: -1
+        });
+    }
+
+    // Sun corona subtle pulse
+    gsap.to('.corona', {
+        scale: 1.06,
+        opacity: 0.95,
+        duration: 2.6,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut'
+    });
+
+    // Moon/cometish motion - implement comet flyby solo timeline
+    const comet = document.getElementById('comet');
+
+    function runCometFlyby() {
+        // set random start and end positions for a dramatic diagonal flyby
+        const startY = 120 + Math.random() * 100;   // percent-ish offsets
+        const endY = 10 + Math.random() * 40;
+
+        gsap.set(comet, { x: -200, y: window.innerHeight * (startY / 100), opacity: 1, scale: 1 });
+        // timeline
+        const ct = gsap.timeline();
+        ct.to(comet, {
+        duration: 2.6,
+        x: window.innerWidth + 200,
+        y: window.innerHeight * (endY / 100),
+        rotation: -30,
+        ease: "power2.inOut",
+        onComplete() { gsap.to(comet, { opacity: 0, duration: 0.8 }); }
+        });
+        // small tail shimmer
+        gsap.to(comet, { boxShadow: "0 0 40px rgba(255,220,120,0.95)", duration: 0.6, yoyo: true, repeat: 3, ease: "sine.inOut" });
+    }
+
+  // trigger comet every ~14-22 seconds
+    runCometFlyby();
+    const cometInterval = setInterval(runCometFlyby, 16000 + Math.random() * 7000);
+
+    // keep timeline references if you want to kill later (not used here)
+    } else {
+    // Reduced motion: keep elements static but visible
+    document.querySelectorAll('.orbit').forEach(o => o.style.transition = 'none');
+    gsap.set('.comet', { opacity: 0.9, x: 40, y: 40 });
+    }
+
+    // Stars parallax subtle anims (slow drift)
+    if (!reduce) {
+    gsap.to('#stars-back', { x: -40, duration: 40, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    gsap.to('#stars-mid',  { x: 60,  duration: 36, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    gsap.to('#stars-near', { x: -90, duration: 28, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    }
+
+    // Make labels slightly visible when hovered (UX nicety)
+    document.querySelectorAll('.planet').forEach(p => {
+    p.addEventListener('mouseenter', () => p.querySelector('.label')?.style.setProperty('opacity', '1'));
+    p.addEventListener('mouseleave', () => p.querySelector('.label')?.style.setProperty('opacity', '0.9'));
+    });
+
+    // optional: reposition comet path on resize for better visuals
+    window.addEventListener('resize', () => {
+    // small safeguard: reposition comet off-screen left again
+    gsap.set('#comet', { x: -200 });
+});
+</script>
+
+</body>
+</html>

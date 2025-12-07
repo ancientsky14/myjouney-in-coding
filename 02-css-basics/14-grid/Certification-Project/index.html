@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Premium Product Landing — Dark Mode + GSAP + AOS</title>
+
+    <!-- AOS CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+    <!-- Fonts (Google) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+    /* ---------- CSS VARIABLES (Light / Dark) ---------- */
+    :root{
+        --bg: #0f1724;            /* fallback dark base (we invert for light below) */
+        --surface: #0b1220;
+        --muted: #98a0b6;
+        --text: #e6eef8;
+        --accent: #00d8ff;
+        --glass: rgba(255,255,255,0.04);
+        --card: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+        --radius: 12px;
+        --max-width: 1100px;
+        --shadow: 0 10px 30px rgba(2,6,23,0.6);
+        --glass-border: rgba(255,255,255,0.04);
+        --glass-highlight: rgba(255,255,255,0.03);
+    }
+
+    /* Light theme overrides */
+    :root.light {
+        --bg: #f6f8fb;
+        --surface: #ffffff;
+        --muted: #475467;
+        --text: #0b1220;
+        --accent: #0b84ff;
+        --glass: rgba(11,17,32,0.03);
+        --card: linear-gradient(180deg, rgba(11,17,32,0.02), rgba(11,17,32,0.01));
+        --shadow: 0 8px 22px rgba(9, 30, 66, 0.08);
+        --glass-border: rgba(11,17,32,0.06);
+        --glass-highlight: rgba(255,255,255,0.6);
+    }
+
+    /* Respect system preference initially */
+    @media (prefers-color-scheme: light) {
+        :root { background-color: var(--bg); }
+        html { background: var(--bg); }
+        /* We'll set .light class via JS if system prefers light */
+    }
+
+    /* ---------- Base Styles ---------- */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+        margin:0;
+        min-height:100%;
+        background: radial-gradient(1200px 600px at 10% 10%, rgba(0,216,255,0.04), transparent),
+                    linear-gradient(180deg,#07101a 0%, transparent 40%),
+                    var(--bg);
+        color:var(--text);
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        line-height:1.5;
+        padding:32px 20px;
+        transition: background .35s ease, color .25s ease;
+    }
+
+    .site {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 28px;
+        align-items: start;
+    }
+
+    header.header {
+        grid-column: 1 / -1;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        margin-bottom: 6px;
+    }
+
+    .brand {
+        display:flex;
+        gap:14px;
+        align-items:center;
+    }
+
+    .logo {
+        width:46px;
+        height:46px;
+        border-radius:10px;
+        background:linear-gradient(135deg,var(--accent),#6ff0d6 60%);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+        font-weight:800;
+        color:#001;
+        font-family: Merriweather, serif;
+    }
+    .brand h1{
+        font-size:1.1rem;
+        margin:0;
+        letter-spacing: -0.02em;
+    }
+    nav.primary {
+        display:flex;
+        gap:18px;
+        align-items:center;
+    }
+    nav.primary a{
+        color:var(--muted);
+        text-decoration:none;
+        font-weight:600;
+        padding:8px 12px;
+        border-radius:8px;
+        transition: all .18s ease;
+    }
+    nav.primary a:hover{ color:var(--text); background:var(--glass); transform:translateY(-2px) }
+
+    /* Dark/Light toggle */
+    .controls { display:flex; gap:10px; align-items:center; }
+    .toggle {
+        cursor:pointer;
+        background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        border-radius:999px;
+        padding:4px;
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        border:1px solid var(--glass-border);
+    }
+    .toggle button {
+        all:unset;
+        width:34px;
+        height:26px;
+        background:var(--surface);
+        border-radius:999px;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        box-shadow: var(--shadow);
+        transition: transform .2s ease, background .2s ease;
+    }
+    .toggle .dot { width:12px; height:12px; border-radius:50%; background:var(--accent) }
+
+    /* ---------- HERO / CTA ---------- */
+    .hero {
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 28px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--glass-border);
+        position:relative;
+        overflow:hidden;
+    }
+    .kicker { color:var(--accent); font-weight:700; font-size:0.9rem; letter-spacing:0.06em }
+    .hero h2 { margin:14px 0 10px; font-size:1.9rem; line-height:1.05 }
+    .hero p.lead { margin-bottom:18px; color:var(--muted); }
+
+    .cta-row { display:flex; gap:12px; align-items:center; flex-wrap:wrap }
+    .email {
+        display:flex;
+        border-radius:10px;
+        overflow:hidden;
+        border:1px solid var(--glass-border);
+        background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    }
+    .email input[type="email"]{
+        padding:12px 14px;
+        border:0;
+        min-width:240px;
+        background:transparent;
+        color:var(--text);
+        outline:none;
+    }
+    .btn {
+        display:inline-block;
+        padding:12px 18px;
+        background: linear-gradient(90deg,var(--accent), #6ff0d6);
+        color:#002;
+        border-radius:10px;
+        font-weight:700;
+        text-decoration:none;
+        border: none;
+        cursor:pointer;
+        box-shadow: 0 8px 24px rgba(0,216,255,0.08);
+        transition: transform .16s ease, box-shadow .16s ease;
+    }
+    .btn:active { transform: translateY(1px) }
+
+    /* ---------- RIGHT COLUMN (Cards) ---------- */
+    .side {
+        display:flex;
+        flex-direction:column;
+        gap:16px;
+        align-self:start;
+    }
+    .card {
+        background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+        padding:16px;
+        border-radius: 12px;
+        border:1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+    }
+    .features {
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap:10px;
+    }
+    .feature-mini {
+        background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+        padding:10px;
+        border-radius:8px;
+        font-weight:600;
+        color:var(--text);
+        border:1px solid rgba(255,255,255,0.02);
+    }
+
+    /* Video responsive container */
+    .responsive-video { position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:10px }
+    .responsive-video iframe { position:absolute; left:0; top:0; width:100%; height:100%; border:0; border-radius:10px }
+
+    /* Pricing boxes */
+    .pricing {
+        display:flex; gap:10px; margin-top:12px;
+        flex-wrap:wrap;
+    }
+    .price {
+        min-width:140px;
+        padding:12px;
+        border-radius:10px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+        border:1px solid var(--glass-border);
+        text-align:center;
+    }
+    .price h4{ margin:0 0 8px; font-size:1.05rem }
+    .price p{ color:var(--muted); margin:0 }
+
+    /* footer */
+    footer { grid-column:1/-1; text-align:center; color:var(--muted); margin-top:22px; font-size:0.9rem }
+
+    /* ---------- Accessibility / Reduced Motion ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important }
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width:1000px){
+        .site { grid-template-columns: 1fr; padding: 0 8px }
+        .side { order: 2 }
+        .hero { order: 1 }
+    }
+
+    @media (max-width:560px){
+        .hero h2{ font-size:1.4rem }
+        nav.primary { display:none } /* mobile: keep header minimal */
+        .logo { width:40px; height:40px; font-size:0.86rem }
+    }
+    </style>
+</head>
+
+<body>
+    <div class="site" id="app">
+        <!-- Header -->
+        <header class="header" role="banner" aria-label="Site header">
+        <div class="brand">
+            <div class="logo" aria-hidden="true">P</div>
+            <h1>Product<span style="opacity:.6">Lab</span></h1>
+        </div>
+
+        <nav class="primary" role="navigation" aria-label="Primary">
+            <a href="#features">Features</a>
+            <a href="#how">How It Works</a>
+            <a href="#pricing">Pricing</a>
+        </nav>
+
+        <div class="controls">
+            <div class="toggle" id="theme-toggle" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+            <button id="theme-btn" title="Toggle theme"><span class="dot"></span></button>
+            </div>
+        </div>
+        </header>
+
+    <!-- Left column (hero) -->
+    <section class="hero" data-aos="fade-up">
+        <div class="kicker">New • 2025</div>
+        <h2 id="headline">Your Ultimate Product — Faster, Safer, Smarter</h2>
+        <p class="lead">Built for people who expect results. Optimized for performance and privacy — shipped with care.</p>
+
+        <form id="email-form" class="cta-row" action="#" onsubmit="return false;">
+            <div class="email" role="group" aria-label="Email signup">
+            <label for="email" class="sr-only" style="position:absolute; left:-9999px">Email</label>
+            <input id="email" type="email" placeholder="you@domain.com" required>
+            </div>
+            <button class="btn" id="cta">Get Early Access</button>
+        </form>
+
+        <!-- subtle decorative SVG (non-essential) -->
+        <svg aria-hidden="true" style="position:absolute; right:-40px; top:-40px; opacity:.06" width="260" height="260" viewBox="0 0 200 200">
+            <defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#00d8ff"/><stop offset="1" stop-color="#6ff0d6"/></linearGradient></defs>
+            <circle cx="100" cy="100" r="80" fill="url(#g)"></circle>
+        </svg>
+    </section>
+
+    <!-- Right column -->
+    <aside class="side" role="complementary">
+        <div class="card" data-aos="fade-left">
+            <h3>Quick Features</h3>
+            <div class="features">
+            <div class="feature-mini">Fast</div>
+            <div class="feature-mini">Secure</div>
+            <div class="feature-mini">Reliable</div>
+            <div class="feature-mini">Scalable</div>
+            </div>
+
+            <div class="pricing" aria-hidden="false" style="margin-top:12px">
+            <div class="price"><h4>Basic</h4><p>$10/mo</p></div>
+            <div class="price"><h4>Pro</h4><p>$25/mo</p></div>
+            <div class="price"><h4>Enterprise</h4><p>$50/mo</p></div>
+            </div>
+        </div>
+
+        <div class="card" data-aos="fade-left" data-aos-delay="120">
+            <h3 id="how">How it Works</h3>
+            <p style="color:var(--muted)">Short explainer and embedded demo</p>
+            <div class="responsive-video" style="margin-top:10px">
+            <iframe src="https://www.youtube.com/embed/gvkqT_Uoahw" title="Demo video" allowfullscreen></iframe>
+            </div>
+        </div>
+    </aside>
+
+    <footer role="contentinfo">
+        © <span id="year"></span> ProductLab — Built with care. • Accessible • Performant
+    </footer>
+    </div>
+
+<!-- GSAP (animation lib) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<!-- AOS (scroll animations) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+<script>
+    // ---------- Theme (dark/light) ----------
+    (function(){
+        const root = document.documentElement;
+        const themeBtn = document.getElementById('theme-btn');
+        const toggle = document.getElementById('theme-toggle');
+
+        // Initialize theme from localStorage or system
+        const saved = localStorage.getItem('site-theme');
+        if (saved === 'light') {
+            document.documentElement.classList.add('light');
+            toggle.setAttribute('aria-checked','true');
+        } else if (!saved) {
+            // respect system preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            document.documentElement.classList.add('light');
+            toggle.setAttribute('aria-checked','true');
+            }
+        }
+
+        // Click toggles
+        toggle.addEventListener('click', () => {
+            const isLight = document.documentElement.classList.toggle('light');
+            toggle.setAttribute('aria-checked', String(isLight));
+            localStorage.setItem('site-theme', isLight ? 'light' : 'dark');
+        });
+    })();
+
+    // ---------- AOS init ----------
+    AOS.init({
+        duration: 700,
+        easing: 'ease-out-cubic',
+        once: true,
+        disable: function() {
+            // disable on reduced motion or small devices
+            return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+    });
+
+    // ---------- GSAP Entrance Animations ----------
+    (function(){
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const tl = gsap.timeline({defaults:{duration:0.7, ease:'power3.out'}});
+        tl.from('.logo', {y: -18, opacity:0, duration:0.5})
+            .from('.brand h1', {x:-12, opacity:0}, "-=0.35")
+            .from('.header .primary a', {y:-6, opacity:0, stagger:0.08}, "-=0.45")
+            .from('.hero h2', {y:18, opacity:0, duration:0.8}, "-=0.2")
+            .from('.hero .lead', {y:12, opacity:0}, "-=0.5")
+            .from('.cta-row .btn', {scale:0.96, opacity:0}, "-=0.4")
+            .from('.side .card', {y:14, opacity:0, stagger:0.12}, "-=0.6");
+    })();
+
+    // ---------- Year auto-fill for footer ----------
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---------- small: CTA interaction (demo) ----------
+    document.getElementById('cta').addEventListener('click', function(e){
+        e.preventDefault();
+        const email = document.getElementById('email').value || 'you@domain.com';
+        // micro-feedback using GSAP
+        gsap.fromTo(this, {scale:0.98}, {scale:1.02, duration:0.12, yoyo:true, repeat:1});
+        // fake "signup" confirmation (replace with real form handling)
+        const old = this.textContent;
+        this.textContent = 'Thanks ✨';
+        setTimeout(()=> { this.textContent = old }, 1400);
+        console.log('Demo signup:', email);
+    });
+</script>
+
+</body>
+</html>

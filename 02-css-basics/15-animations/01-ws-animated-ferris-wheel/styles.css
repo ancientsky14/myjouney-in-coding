@@ -1,0 +1,117 @@
+/* Scene background */
+body {
+    height: 100vh;
+    background: linear-gradient(#0d0f29, #1d1f3a);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Ground */
+.scene::after {
+    content: " ";
+    position: absolute;
+    bottom: 0;
+    width: 120%;
+    height: 45px;
+    background: #0a0a0a;
+    z-index: -1;
+    left: 0;
+}
+
+/* Ferris wheel stand */
+.stand-left,
+.stand-right {
+    width: 12px;
+    height: 362px;
+    background: #444;
+    position: absolute;
+    bottom: 0;
+}
+
+.stand-left {
+    transform: rotate(40deg);
+    left: calc(50% - 130px);
+}
+
+.stand-right {
+    transform: rotate(-40deg);
+    right: calc(50% - 130px);
+}
+
+/* Wheel container */
+.wheel {
+    position: relative;
+    height: 55vw;
+    width: 55vw;
+    max-height: 450px;
+    max-width: 450px;
+    border: 4px solid #e0e0e0;
+    border-radius: 50%;
+    animation: wheel-spin 16s linear infinite;
+    filter: drop-shadow(0 0 8px #ffffff55);
+}
+
+/* Center hub */
+.hub {
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    background: #fff;
+    border-radius: 50%;
+    border: 4px solid #444;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+/* Wheel spokes */
+.line {
+    position: absolute;
+    width: 50%;
+    height: 3px;
+    top: 50%;
+    left: 50%;
+    background: #ccc;
+    transform-origin: 0% 0%;
+}
+
+.line:nth-child(2) { transform: rotate(60deg); }
+.line:nth-child(3) { transform: rotate(120deg); }
+.line:nth-child(4) { transform: rotate(180deg); }
+.line:nth-child(5) { transform: rotate(240deg); }
+.line:nth-child(6) { transform: rotate(300deg); }
+
+/* Cabins */
+.cabin {
+    position: absolute;
+    width: 20%;
+    height: 20%;
+    background: #ff4747;
+    border-radius: 10px;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 8px #0005;
+
+    transform-origin: 50% 0%;
+    animation: cabin-sway 16s linear infinite;
+}
+
+/* Proper cabin positions */
+.cabin:nth-of-type(1) {right: -8.5%;top: 50%; transform: translateX(-50%); }
+.cabin:nth-of-type(2) {right: 17%;top: 93.5%;}
+.cabin:nth-of-type(3) {right: 67%;top: 93.5%;}
+.cabin:nth-of-type(4) {left: -8.5%;top: 50%;; transform: translateX(-50%); }
+.cabin:nth-of-type(5) {left: 17%;top: 7%;}
+.cabin:nth-of-type(6) {right: 17%;top: 7%;}
+
+/* Animations */
+@keyframes wheel-spin {
+    0%   { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes cabin-sway {
+    0% { transform:rotate(0deg); } 25% { background-color: yellow; } 50% { background-color: purple; } 75% { background-color: yellow; } 100% { transform: rotate(-360deg); }
+}

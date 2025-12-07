@@ -1,0 +1,107 @@
+body {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #000;
+    align-items: center;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #000010, #000);
+}
+/* STARS BACKGROUND */
+.stars {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(1.5px 1.5px at 70% 80%, white, transparent),
+        radial-gradient(1px 1px at 40% 20%, white, transparent),
+        radial-gradient(1.5px 1.5px at 10% 90%, white, transparent),
+        radial-gradient(2px 2px at 90% 40%, white, transparent);
+    opacity: 0.8;
+    animation: twinkle 5s infinite alternate ease-in-out;
+}
+@keyframes twinkle {
+    0% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+.space {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+/* EARTH WRAPPER (so GSAP can rotate earth only) */
+.earth-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 130px;
+    height: 130px;
+    transform: translate(-50%, -50%);
+}
+
+/* EARTH */
+.earth {
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+        inset -15px -15px 40px rgba(0,0,0,0.4),
+        inset 10px 10px 30px rgba(255,255,255,0.15),
+        0 0 40px rgba(0,140,255,0.5);
+    background: radial-gradient(circle at 35% 35%, #4ec6ff, #00509e 70%);
+    background-size: 200% 200%;
+}
+
+/* ATMOSPHERE */
+.atmosphere {
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(80,160,255,0.5), transparent 70%);
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+/* ORBIT */
+.orbit {
+    width: 200px; 
+    height: 200px; 
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%); 
+    animation: orbit 5s linear infinite; 
+}
+
+/* MOON */
+.moon {
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle at 40% 40%, #dedede, #7d7d7d 70%);
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow:
+        inset -5px -5px 10px rgba(0,0,0,0.3),
+        0 0 15px rgba(255,255,255,0.8);
+}
+
+/* ANIMATION */
+@keyframes orbit {
+    0% {
+        transform: rotate(0deg) translate(-50%, -50%);
+    }
+    100% {
+        transform: rotate(360deg) translate(-50%, -50%);
+    }
+}
